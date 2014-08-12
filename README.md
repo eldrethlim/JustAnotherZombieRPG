@@ -18,7 +18,7 @@ Ambitious functionality:
 * One extra map to play on.
 * Third faction (The cult)
 
-__
+___
 
 ## Game design document:
 
@@ -36,7 +36,7 @@ Map:
 
 - Urban area (shopping district)
 
-__
+___
 
 **Human Faction**
 
@@ -63,7 +63,7 @@ Endurance
 - determines stamina (action points)
 - increases health points
 
-__
+___
 
 Weapons:
 
@@ -79,7 +79,7 @@ Shotgun
 Bolt-action rifle
 - Long ranged weapon
 
-__
+___
 
 Extra notes:
 
@@ -92,7 +92,7 @@ and a 90% penalty for his/her back.
 
 - Running speed is the distance a character can cover per action point spent.
 
-__
+___
 
 ** Zombie Faction**
 
@@ -111,7 +111,7 @@ Endurance
 - determines stamina (action points)
 - increases health points and damage threshold
 
-__
+___
 
 Type of attacks:
 
@@ -122,3 +122,5 @@ Attack
 Bite
 - Massive damage
 - High chance of infection (causing death to the victim within 3 turns)
+
+___
