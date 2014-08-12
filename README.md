@@ -61,7 +61,6 @@ Perception
 
 Endurance 
 - determines stamina (action points)
-- increases health points
 
 ___
 
@@ -100,7 +99,7 @@ Basic combat stats:
 
 Strength
 - increases melee damage
-- minor increase to damage threshold
+- increases hit points
 
 Agility
 - determines attack accuracy
@@ -109,7 +108,7 @@ Agility
 
 Endurance
 - determines stamina (action points)
-- increases health points and damage threshold
+- increases health points
 
 ___
 
