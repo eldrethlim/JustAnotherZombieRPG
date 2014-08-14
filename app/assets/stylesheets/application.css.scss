@@ -13,3 +13,21 @@
  *= require_tree .
  *= require_self
  */
+
+$body-bg: #ecf0f1;
+$navbar-inverse-bg: #bdc3c7;
+$navbar-inverse-link-color: white;
+$jumbotron-bg: white;
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+div.spacing
+{
+  margin-top: 25px;
+}
+
+div.doublespacing
+{
+  margin-top: 50px;
+}

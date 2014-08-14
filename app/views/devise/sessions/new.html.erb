@@ -1,17 +1,27 @@
-<h2>Sign in</h2>
+<div class="container">
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
+  <h2>Sign in</h2>
 
-  <div><%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %></div>
+  <div class="col-md-6">
 
-  <% if devise_mapping.rememberable? -%>
-    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
-  <% end -%>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="form-group spacing">
+        <%= f.label :username %><br>
+        <%= f.text_field :username, class: 'form-control', autofocus: true %>
+      </div>
 
-  <div><%= f.submit "Sign in" %></div>
-<% end %>
+      <div class="form-group spacing">
+        <%= f.label :password %><br>
+        <%= f.password_field :password, class: 'form-control', autocomplete: "off" %>
+      </div>
 
-<%= render "devise/shared/links" %>
+      <div class="form-group spacing">
+        <% if devise_mapping.rememberable? -%>
+          <%= f.check_box :remember_me %>  <%= f.label :remember_me %>
+      </div>
+      <% end %>
+
+      <div class="spacing"><%= f.submit "Sign in", class: 'btn btn-success' %> <%= link_to "Back", :back, class: 'btn btn-info' %></div>
+    <% end %>
+  </div>
+</div>

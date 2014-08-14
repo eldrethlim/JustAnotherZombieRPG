@@ -1,29 +1,52 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="container">
+  <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
+    <div><%= current_player.username %></div>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
+  <div class="col-md-6">
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+      <%= devise_error_messages! %>
 
-  <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "off" %></div>
+      <div class="spacing form-group">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true, class: 'form-control', placeholder: "Enter email here" %>
+      </div>
 
-  <div><%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div class="spacing form-group">
+          <p>Currently waiting confirmation for:</p> 
+          <%= resource.unconfirmed_email %>
+        </div>
+      <% end %>
 
-  <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "off" %></div>
+      <div class="spacing form-group">
+        <%= f.label :password %>
+        <%= f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: "Enter password" %>
+        <i>(leave blank if you don't want to change it)</i>
+      </div>
 
-  <div><%= f.submit "Update" %></div>
-<% end %>
+      <div class="spacing form-group">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', placeholder: "Enter password confirmation" %>
+      </div>
 
-<h3>Cancel my account</h3>
+      <div class="spacing form-group">
+        <%= f.label :current_password %> 
+        <%= f.password_field :current_password, autocomplete: "off", class: 'form-control', placeholder: "Enter your curent password" %>
+        <i>(we need your current password to confirm your changes)</i>
+      </div>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+      <div class="spacing form-group"><%= f.submit "Update", class: "btn btn-success" %></div>
+    <% end %>
 
-<%= link_to "Back", :back %>
+    <div class="doublespacing">
+      <b>Delete My Account</b> 
+      <%= button_to "To infinity, and beyond!", registration_path(resource_name), class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete %>
+    </div>
+
+    <div class="spacing">
+      <%= link_to "Back", :back, class: 'btn btn-info' %>
+    </div>
+  </div>
+</div>
