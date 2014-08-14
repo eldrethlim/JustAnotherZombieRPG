@@ -1,4 +1,4 @@
 class Character < ActiveRecord::Base
   belongs_to :team
-  belongs_to :gridfield
+  has_one :gridfield
 end
