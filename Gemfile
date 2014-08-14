@@ -12,6 +12,7 @@ gem 'spring',        group: :development
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'devise'
 gem 'quiet_assets', group: :development
+gem 'figaro'
 
 group :development, :test do
   gem 'rspec-rails'
