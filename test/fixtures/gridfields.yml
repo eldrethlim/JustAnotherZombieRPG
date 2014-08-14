@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  map_id: 1
+  x: 1
+  'y': 1
+  grid_object_id: 1
+
+two:
+  map_id: 1
+  x: 1
+  'y': 1
+  grid_object_id: 1

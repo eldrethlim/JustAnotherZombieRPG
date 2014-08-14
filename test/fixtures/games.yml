@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player1_id: 1
+  player2_id: 1
+  map_id: 1
+  team1_id: 1
+  team2_id: 1
+  current_turn_team_id: 1
+
+two:
+  player1_id: 1
+  player2_id: 1
+  map_id: 1
+  team1_id: 1
+  team2_id: 1
+  current_turn_team_id: 1
