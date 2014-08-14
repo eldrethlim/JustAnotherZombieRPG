@@ -39,10 +39,10 @@ ActiveRecord::Schema.define(version: 20140814132302) do
     t.integer  "map_id"
     t.integer  "x"
     t.integer  "y"
-    t.integer  "grid_object_id"
+    t.integer  "gridobject_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "char_object_id"
+    t.integer  "character_id"
   end
 
   create_table "gridobjects", force: true do |t|
