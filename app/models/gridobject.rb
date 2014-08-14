@@ -1,3 +1,3 @@
 class Gridobject < ActiveRecord::Base
-  has_many :gridfields
+  belongs_to :gridfield
 end
