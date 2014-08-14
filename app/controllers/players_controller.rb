@@ -2,10 +2,10 @@ class PlayersController < ApplicationController
   before_filter :authenticate_player!
 
   def update
-    if current_user.update_attributes(player_params)
-      flash[:notice] = "Personal information updated"
+    if current_player.update_attributes(player_params)
+      flash[:notice] = "Account information updated!"
     end
-    redirect_to edit_user_registration_path(current_player)
+    redirect_to edit_player_registration_path(current_player)
   end
 
   private
