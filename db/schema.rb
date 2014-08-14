@@ -15,10 +15,11 @@ ActiveRecord::Schema.define(version: 20140814065932) do
 
   create_table "characters", force: true do |t|
     t.integer  "team_id"
-    t.string   "type"
+    t.string   "char_type"
     t.integer  "action_points_left"
     t.integer  "speed"
     t.integer  "life_points_left"
+    t.string   "graphic_url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -44,7 +45,7 @@ ActiveRecord::Schema.define(version: 20140814065932) do
   end
 
   create_table "gridobjects", force: true do |t|
-    t.boolean  "traversible?"
+    t.boolean  "traversible"
     t.string   "graphic_url"
     t.datetime "created_at"
     t.datetime "updated_at"

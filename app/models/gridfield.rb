@@ -1,5 +1,5 @@
 class Gridfield < ActiveRecord::Base
   belongs_to :map
-  has_many :gridobjects
-  has_many :characters
+  has_one :gridobject
+  has_one :character
 end
