@@ -4,7 +4,7 @@ class CreateGridfields < ActiveRecord::Migration
       t.integer :map_id
       t.integer :x
       t.integer :y
-      t.integer :grid_object_id
+      t.integer :gridobject_id
 
       t.timestamps
     end

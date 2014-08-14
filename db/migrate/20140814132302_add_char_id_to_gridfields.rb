@@ -1,5 +1,5 @@
 class AddCharIdToGridfields < ActiveRecord::Migration
   def change
-    add_column :gridfields, :char_object_id, :integer
+    add_column :gridfields, :character_id, :integer
   end
 end
