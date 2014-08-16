@@ -7,11 +7,11 @@ class Game < ActiveRecord::Base
   belongs_to :map
 
   def self.setup(attrs)
-    game = Game.create(attrs)
-    map = game.create_map
-    30.times do |x| 
-      30.times do |y| 
-        gridfield = map.gridfields.create(x: x+1, y: y+1)
+    @game = Game.create(attrs)
+    map = @game.create_map
+    30.times do |y| 
+      30.times do |x| 
+        gridfield = map.gridfields.create(y: 30-y, x: x+1)
         gridfield.create_gridobject(traversible: true)
       end
     end

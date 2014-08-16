@@ -1,0 +1,9 @@
+<table class= "table-bordered table-responsive">
+  <% @gridfields.in_groups_of(30, false) do |row| %>
+    <tr>
+      <% row.each do |gridfield| %>
+        <td><%= gridfield.x %>,<%= gridfield.y %><br><%= gridfield.gridobject.traversible %></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
