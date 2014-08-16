@@ -17,8 +17,3 @@ class Game < ActiveRecord::Base
     end
   end
 end
-
-# Make a new game controller (create a new game action)
-# Show list of players
-# Game setup, then redirect to game show page (should show grid)
-# | t | t | t |
