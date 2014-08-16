@@ -1,0 +1,8 @@
+<% if !current_player %>
+  <%= render partial: 'page/home' %>
+<% else %>
+  
+  <h3>Create a new game</h3>
+  <%= render partial: 'games/table', locals: {players: @players} %>
+
+<% end %>
