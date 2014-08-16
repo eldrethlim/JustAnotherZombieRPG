@@ -1,8 +1,0 @@
-<% if current_player %>
-  You're signed in!
-<% else %>
-  <div class="jumbotron">
-      <h1> Brainssssss! </h1>
-      <%= link_to "Sign up here", new_player_registration_path, class: "btn btn-primary" %>   <%= link_to "Sign in here", new_player_session_path, class: "btn btn-success" %>
-  </div>
-<% end %>
