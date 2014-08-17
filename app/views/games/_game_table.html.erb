@@ -19,9 +19,10 @@
         </tr>
       <% else %>
         <tr>
+          <td> <%= game.id %> </td>
           <td width="50%"> <%= game.player1.username %></td>
           <td width="50%" align="center">
-            <%= button_to "Resume game", game_path(game), class: 'btn btn-success', data: { disable_with: 'Resuming...'} %>
+            <%= link_to "Resume game", game_path(game), class: 'btn btn-success', data: { disable_with: 'Resuming...'} %>
           </td>
         </tr>
       <% end %>
