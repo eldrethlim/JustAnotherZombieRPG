@@ -9,7 +9,7 @@
 
   <tbody>
     <% games.each do |game| %>
-      <% if current_player == (game.player1 || game.player2) %>
+      <% if current_player == game.player1 || current_player == game.player2 %>
         <% if game.player2 != current_player %>
           <tr>
             <td> <%= game.id %> </td>
