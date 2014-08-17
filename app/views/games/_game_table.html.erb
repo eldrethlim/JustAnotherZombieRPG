@@ -9,22 +9,24 @@
 
   <tbody>
     <% games.each do |game| %>
-      <% if game.player2 != current_player %>
-        <tr>
-          <td> <%= game.id %> </td>
-          <td> <%= game.player2.username %> </td>
-          <td align="center"> 
-            <%= link_to "Resume game", game_path(game), class: 'btn btn-success', data: { disable_with: 'Resuming...'} %> 
-          </td>
-        </tr>
-      <% else %>
-        <tr>
-          <td> <%= game.id %> </td>
-          <td width="50%"> <%= game.player1.username %></td>
-          <td width="50%" align="center">
-            <%= link_to "Resume game", game_path(game), class: 'btn btn-success', data: { disable_with: 'Resuming...'} %>
-          </td>
-        </tr>
+      <% if current_player == (game.player1 || game.player2) %>
+        <% if game.player2 != current_player %>
+          <tr>
+            <td> <%= game.id %> </td>
+            <td> <%= game.player2.username %> </td>
+            <td align="center"> 
+              <%= link_to "Resume game", game_path(game), class: 'btn btn-success', data: { disable_with: 'Resuming...'} %> 
+            </td>
+          </tr>
+        <% else %>
+          <tr>
+            <td> <%= game.id %> </td>
+            <td width="50%"> <%= game.player1.username %></td>
+            <td width="50%" align="center">
+              <%= link_to "Resume game", game_path(game), class: 'btn btn-success', data: { disable_with: 'Resuming...'} %>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
     <% end %>
   </tbody>

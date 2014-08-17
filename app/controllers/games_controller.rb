@@ -21,5 +21,10 @@ class GamesController < ApplicationController
   def show
     @game = Game.find(params[:id])
     @gridfields = @game.map.gridfields.all
-  end
+    unless current_player == (@game.player1 || @game.player2)
+      flash[:notice] = "Sorry, you can't access this game!"
+      redirect_to root_path
+    end
+  end 
+
 end
