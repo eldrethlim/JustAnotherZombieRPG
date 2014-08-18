@@ -11,6 +11,11 @@ RSpec.describe Game, :type => :model do
       }.to change(Game, :count).by(1)
     end
 
+    it 'should return the newly created Game object' do
+      game = Game.setup(player1: p1, player2: p2)
+      expect(game).to eq(Game.last)
+    end
+
     it 'should pass player info and save it as well' do
       Game.setup(player1: p1, player2: p2)
       expect(Game.last.player1).to eq(p1)

@@ -8,9 +8,9 @@ class GamesController < ApplicationController
 
   def setup
     @player2 = Player.find(params[:id])
+    @game = Game.setup(player1: current_player, player2: @player2 )
 
-    if Game.setup(player1: current_player, player2: @player2 )
-      @game = Game.where(player1: current_player, player2: @player2).last
+    if @game
       redirect_to @game, notice: "Brainssssss"
     else
       flash[:error] = "Uh oh, something went wrong creating a game!"
@@ -20,7 +20,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
-    @gridfields = @game.map.gridfields.all
+    @gridfields = @game.map.gridfields.includes(:gridobject).all
     unless current_player == @game.player1 || current_player == @game.player2
       flash[:error] = "Sorry, you can't access this game!"
       redirect_to root_path
