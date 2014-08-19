@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :players
   resources :games do
-    member do
+    collection do
       post 'setup'
     end
   end

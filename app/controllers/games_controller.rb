@@ -7,7 +7,7 @@ class GamesController < ApplicationController
   end
 
   def setup
-    @player2 = Player.find(params[:id])
+    @player2 = Player.find(params[:player_id])
     @game = Game.setup(player1: current_player, player2: @player2 )
 
     if @game
