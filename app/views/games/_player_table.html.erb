@@ -12,7 +12,7 @@
         <tr>
           <td width="50%"> <%= player.username %> </td>
           <td width="50%" align="center"> 
-            <%= button_to "Play with this player", setup_games_path(player), controller: 'games_controller', action: 'setup', method: :post, class: 'btn btn-success', data: { disable_with: 'Creating'} %> 
+            <%= button_to "Play with this player", setup_games_path(player_id: player.id), controller: 'games_controller', action: 'setup', method: :post, class: 'btn btn-success', data: { disable_with: 'Creating'} %> 
           </td>
         </tr>
       <% end %>
