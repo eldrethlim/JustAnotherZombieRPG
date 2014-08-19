@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140814132302) do
+ActiveRecord::Schema.define(version: 20140818213616) do
 
   create_table "characters", force: true do |t|
     t.integer  "team_id"
@@ -43,10 +43,11 @@ ActiveRecord::Schema.define(version: 20140814132302) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "character_id"
+    t.string   "graphic_url"
+    t.boolean  "traversible"
   end
 
   create_table "gridobjects", force: true do |t|
-    t.boolean  "traversible"
     t.string   "graphic_url"
     t.datetime "created_at"
     t.datetime "updated_at"

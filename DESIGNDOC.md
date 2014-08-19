@@ -30,7 +30,7 @@ Zombie stats:
 2 action points.
 Up to 5 tiles moved per action point spent.
 6 life points.
-(Mob of 6)
+(Mob of 5)
 
 Attacks:
 

@@ -32,7 +32,17 @@ div.doublespacing
   margin-top: 50px;
 }
 
-table.tablesize {
+table.fixed { 
+  table-layout:fixed;
+}
 
-  table-layout: fixed;
+table.fixed td {
+  overflow: hidden;
+  width: 35px;
+  height: 35px;
+}
+
+div.center {
+  margin: auto;
+  width: 95%;
 }

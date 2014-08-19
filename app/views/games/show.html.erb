@@ -1,9 +1,32 @@
-<table class= "table-bordered table-responsive">
-  <% @gridfields.in_groups_of(30, false) do |row| %>
-    <tr>
-      <% row.each do |gridfield| %>
-        <td><%= gridfield.x %>,<%= gridfield.y %><br><%= gridfield.gridobject.traversible %></td>
-      <% end %>
-    </tr>
-  <% end %>
-</table>
+<div class="center">
+  <table class= "table-bordered table-responsive fixed">
+    <% @gridfields.in_groups_of(30, false) do |row| %>
+      <tr>
+        <% row.each do |gridfield| %>
+          <td style="background: url('<%= image_path gridfield.graphic_url %>')">
+            <% if gridfield.character != nil %>
+              <%= image_tag gridfield.character.graphic_url %>
+            <% end %>
+            <% if gridfield.gridobject != nil %>
+              <%= image_tag gridfield.gridobject.graphic_url %>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+<div class="center">
+  <table class= "table-bordered table-responsive fixed">
+    <% @gridfields.in_groups_of(30, false) do |row| %>
+      <tr>
+        <% row.each do |gridfield| %>
+          <td>
+            <%= gridfield.x %>,<%= gridfield.y %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+</div>

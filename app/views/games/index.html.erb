@@ -1,11 +1,10 @@
 <% if !current_player %>
   <%= render partial: 'page/home' %>
 <% else %>
-
   <% if current_player.sign_in_count < 2 %>
     <h2> Welcome, <%= current_player.username %>! </h2>
   <% else %>
-    <h2> Welcome back, <%= current_player.username %>! </h2>
+    <h2 > Welcome back, <%= current_player.username %>! </h2>
   <% end %>
 
 

@@ -50,5 +50,17 @@ RSpec.describe Game, :type => :model do
       fields = Gridobject.all.map {|go| gf = go.gridfield; [gf.x, gf.y]}
       expect(fields).to eq(fields.uniq)
     end
+
+    it 'should put one character within the team on the map' do 
+      game = Game.setup(player1: p2, player2: p2)
+      team = game.team1
+      expect(team).to_not be_nil
+      expect(team.characters.count).to eq(1)
+      char = team.characters.first
+      expect(char.graphic_url).to eq('Soldier160x160withgrass.png')
+      expect(char.gridfield).to_not be_nil
+      expect(char.gridfield.x).to eq(1)
+      expect(char.gridfield.y).to eq(1)
+    end
   end
 end
