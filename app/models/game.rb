@@ -12,7 +12,7 @@ class Game < ActiveRecord::Base
       map = game.create_map
       team1 = Team.create(player_id: game.player1.id)
       team2 = Team.create(player_id: game.player2.id)
-      game.update(team1: team1, team2: team2)
+      game.update(team1: team1, team2: team2, current_player_turn_id: game.player1.id)
       
       # Create map tiles
       30.times do |y| 
