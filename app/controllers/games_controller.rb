@@ -25,6 +25,72 @@ class GamesController < ApplicationController
       flash[:error] = "Sorry, you can't access this game!"
       redirect_to root_path
     end
-  end 
+  end
 
+  def select_character
+    if current_character != nil
+      current_character.gridfield.update(graphic_url: 'GrassTile.png')
+    end
+      gridfield = Gridfield.find(params[:gridfield_id])
+      game = Game.find(params[:id])
+      character = Character.find(params[:character_id])
+      session[:current_character_id] = character.id
+      gridfield.update(graphic_url: 'SelectedTile.png')
+
+      flash[:notice] = "Character selected"
+      redirect_to game
+  end
+
+  def unselect_character
+    gridfield = Gridfield.find(params[:gridfield_id])
+    game = Game.find(params[:id])
+    session[:current_character_id] = nil
+    gridfield.update(graphic_url: 'GrassTile.png')
+
+    flash[:notice] = "Character unselected"
+    redirect_to game
+  end
+
+  def move_character
+    gridfield = Gridfield.find(params[:gridfield_id])
+    game = gridfield.map.game
+
+    if current_character.action_points_left > 0
+      current_character.update(action_points_left: current_character.action_points_left - 1)
+      current_character.gridfield.update(character_id: nil, graphic_url: 'GrassTile.png')
+      gridfield.update(character_id: current_character.id, graphic_url: 'SelectedTile.png')
+      flash[:notice] = "#{current_character.char_type} moved to #{gridfield.x},#{gridfield.y}!"
+    else
+      flash[:error] = "Sorry, this character has no action points left!"
+    end
+
+    redirect_to game
+  end
+
+  def attack_character
+    game = Game.find(params[:id])
+    character = Character.find(params[:character_id])
+
+    if current_character.action_points_left > 0
+      character.update(life_points_left: character.life_points_left - current_character.attack_damage)
+      if character.life_points_left <= 0
+        character.gridfield.update(graphic_url: 'DeadChar.png')
+        character.destroy
+        flash[:notice] = "#{current_character.char_type} attacked for #{current_character.attack_damage} damage! #{character.char_type} died!"
+      else
+        flash[:notice] = "#{current_character.char_type} attacked for #{current_character.attack_damage} damage!"
+      end 
+    else
+      flash[:error] = "Sorry, this character has no action points left!"
+    end
+
+    redirect_to game
+  end
+
+  private
+
+  def current_character
+    @current_character ||= Character.find_by_id(session[:current_character_id])
+  end
+  helper_method :current_character
 end

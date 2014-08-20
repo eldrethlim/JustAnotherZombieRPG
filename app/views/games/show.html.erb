@@ -1,32 +1,25 @@
 <div class="center">
-  <table class= "table-bordered table-responsive fixed">
-    <% @gridfields.in_groups_of(30, false) do |row| %>
-      <tr>
-        <% row.each do |gridfield| %>
-          <td style="background: url('<%= image_path gridfield.graphic_url %>')">
-            <% if gridfield.character != nil %>
-              <%= image_tag gridfield.character.graphic_url %>
-            <% end %>
-            <% if gridfield.gridobject != nil %>
-              <%= image_tag gridfield.gridobject.graphic_url %>
-            <% end %>
-          </td>
-        <% end %>
-      </tr>
-    <% end %>
-  </table>
-</div>
-
-<div class="center">
-  <table class= "table-bordered table-responsive fixed">
-    <% @gridfields.in_groups_of(30, false) do |row| %>
-      <tr>
-        <% row.each do |gridfield| %>
-          <td>
-            <%= gridfield.x %>,<%= gridfield.y %>
-          </td>
-        <% end %>
-      </tr>
-    <% end %>
+  <table class="spacing">
+    <tr>
+      <td>
+        <%= render partial: 'games/game_level', locals: {gridfields: @gridfields} %>
+      </td>
+      <td style="vertical-align:top">
+        <div>
+          <p><h4>Character Stats:</h4></p>
+          <% if current_character %>
+            <p>Life points: <%= current_character.life_points_left %></p>
+            <p>Action points: <%= current_character.action_points_left %></p>
+            <p>Character type: <%= current_character.char_type %></p>
+            <p>Speed: <%= current_character.speed %></p>
+          <% else %>
+            <p>Life points:</p>
+            <p>Action points:</p>
+            <p>Character type:</p>
+            <p>Speed:</p>
+          <% end %>
+        </div>
+      </td>
+    </tr>
   </table>
 </div>

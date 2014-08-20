@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   resources :games do
     collection do
       post 'setup'
+      post 'select_character'
+      post 'unselect_character'
+      post 'move_character'
+      post 'attack_character'
     end
   end
 

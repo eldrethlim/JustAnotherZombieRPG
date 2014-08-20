@@ -10,8 +10,8 @@ class Game < ActiveRecord::Base
     transaction do
       game = Game.create(attrs)
       map = game.create_map
-      team1 = Team.create
-      team2 = Team.create
+      team1 = Team.create(player_id: game.player1.id)
+      team2 = Team.create(player_id: game.player2.id)
       game.update(team1: team1, team2: team2)
       
       # Create map tiles
@@ -21,26 +21,44 @@ class Game < ActiveRecord::Base
         end
       end
 
-      # Create level objects on map
-      x = [1, 2, 3, 4]
-      y = [1, 2, 3, 4]
+      # Create lake on map
+      x = [19, 20, 21, 22, 23, 24, 18, 19, 20, 21, 22, 23, 24, 25, 26, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 21, 22, 23, 24, 25, 26]
+      y = [23, 23, 23, 23, 23, 23, 22, 22, 22, 22, 22, 22, 22, 22, 22, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 18, 18, 18, 18, 18, 18]
       x.zip(y).each do |x,y|
         gridfield = map.gridfields.find_by(x: x, y: y)
-        gridobject = gridfield.create_gridobject(graphic_url: '')
+        gridobject = gridfield.create_gridobject(graphic_url: 'water.png')
+        gridfield.update(gridobject: gridobject, traversible: false)
+      end
+
+      # Create rocks on map
+      x = [3, 4, 6, 7, 9, 11, 15, 19, 23, 25]
+      y = [4, 23, 20, 7, 21, 17, 8, 10, 6, 15]
+      x.zip(y).each do |x,y|
+        gridfield = map.gridfields.find_by(x: x, y: y)
+        gridobject = gridfield.create_gridobject(graphic_url: 'rock.png')
+        gridfield.update(gridobject: gridobject, traversible: false)
+      end
+
+      # Create trees on map
+      x = [2, 3, 3, 4, 5, 6, 6, 7, 9, 9, 9, 9, 10, 11, 12, 13, 13, 13, 14, 15, 15, 17, 17, 18, 18, 19, 20, 21, 23, 23, 25, 25, 25, 27, 27, 27, 28, 28]
+      y = [18, 10, 27, 17, 12, 24, 4, 14, 27, 17, 11, 5, 8, 21, 25, 19, 11, 5, 15, 22, 18, 27, 12, 16, 5, 7, 15, 27, 17, 9, 27, 12, 5, 25, 10, 3, 17, 7] 
+      x.zip(y).each do |x,y|
+        gridfield = map.gridfields.find_by(x: x, y: y)
+        gridobject = gridfield.create_gridobject(graphic_url: 'tree.png')
         gridfield.update(gridobject: gridobject, traversible: false)
       end
 
       # Create human characters on map
       x = [12, 14, 16, 18]
       x.each do |x| 
-        human = team1.characters.create(graphic_url: 'Soldier.png', char_type: 'Human', action_points_left: 2, speed: 4, life_points_left: 2)
+        human = team1.characters.create(graphic_url: 'Soldier.png', char_type: 'Human', action_points_left: 2, speed: 4, life_points_left: 2, attack_damage: 3, range: 8)
         map.gridfields.find_by(x: x, y: 1).update(character: human, traversible: false)
       end
 
       # Create zombie characters on map
       x = [9, 12, 15, 18, 21]
       x.each do |x|
-        zombie = team2.characters.create(graphic_url: 'Zombie.png', char_type: 'Zombie', action_points_left: 2,speed: 5, life_points_left: 6)
+        zombie = team2.characters.create(graphic_url: 'Zombie.png', char_type: 'Zombie', action_points_left: 2,speed: 5, life_points_left: 6, attack_damage: 3, range: 0)
         map.gridfields.find_by(x: x, y: 30).update(character: zombie, traversible: false)
       end
 
