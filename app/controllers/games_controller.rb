@@ -72,6 +72,7 @@ class GamesController < ApplicationController
     character = Character.find(params[:character_id])
 
     if current_character.action_points_left > 0
+      current_character.update(action_points_left: current_character.action_points_left - 1)
       character.update(life_points_left: character.life_points_left - current_character.attack_damage)
       if character.life_points_left <= 0
         character.gridfield.update(graphic_url: 'DeadChar.png')
