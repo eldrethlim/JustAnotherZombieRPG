@@ -77,9 +77,9 @@ class GamesController < ApplicationController
       if character.life_points_left <= 0
         character.gridfield.update(graphic_url: 'DeadChar.png')
         character.destroy
-        flash[:notice] = "#{current_character.char_type} attacked for #{current_character.attack_damage} damage! #{character.char_type} died!"
+        flash[:notice] = "#{current_character.char_type} attacked #{character.char_type} for #{current_character.attack_damage} damage! #{character.char_type} died!"
       else
-        flash[:notice] = "#{current_character.char_type} attacked for #{current_character.attack_damage} damage!"
+        flash[:notice] = "#{current_character.char_type} attacked #{character.char_type} for #{current_character.attack_damage} damage!"
       end 
     else
       flash[:error] = "Sorry, this character has no action points left!"

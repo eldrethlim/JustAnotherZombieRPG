@@ -58,7 +58,7 @@ class Game < ActiveRecord::Base
       # Create zombie characters on map
       x = [9, 12, 15, 18, 21]
       x.each do |x|
-        zombie = team2.characters.create(graphic_url: 'Zombie.png', char_type: 'Zombie', action_points_left: 2,speed: 5, life_points_left: 6, attack_damage: 3, range: 0)
+        zombie = team2.characters.create(graphic_url: 'Zombie.png', char_type: 'Zombie', action_points_left: 2,speed: 5, life_points_left: 6, attack_damage: 3, range: 2)
         map.gridfields.find_by(x: x, y: 30).update(character: zombie, traversible: false)
       end
 
