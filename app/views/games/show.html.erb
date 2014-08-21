@@ -6,23 +6,27 @@
       </td>
       <td style="vertical-align:top">
         <div>
-          <p><h4>Character Stats:</h4></p>
-          <% if current_character %>
-            <p>Life points: <%= current_character.life_points_left %></p>
-            <p>Action points: <%= current_character.action_points_left %></p>
-            <p>Character type: <%= current_character.char_type %></p>
-            <p>Speed: <%= current_character.speed %></p>
+          <% if @game.current_player_turn_id != current_player.id %>
+            <h3> It is currently your opponent's turn!</h3>
           <% else %>
-            <p>Life points:</p>
-            <p>Action points:</p>
-            <p>Character type:</p>
-            <p>Speed:</p>
-          <% end %>
+            <p><h4>Character Stats:</h4></p>
+            <% if current_character %>
+              <p>Life points: <%= current_character.life_points_left %></p>
+              <p>Action points: <%= current_character.action_points_left %></p>
+              <p>Character type: <%= current_character.char_type %></p>
+              <p>Speed: <%= current_character.speed %></p>
+            <% else %>
+              <p>Life points:</p>
+              <p>Action points:</p>
+              <p>Character type:</p>
+              <p>Speed:</p>
+            <% end %>
 
-          <% if current_player.id == @game.current_player_turn_id %>
-            <div class="doublespacing">
-              <p><%= link_to "End Turn", end_turn_button_games_path(id: @game.id), controller: 'games_controller', action: 'end_turn', method: :post, class: 'btn btn-success' %></p>
-            </div>
+            <% if current_player.id == @game.current_player_turn_id %>
+              <div class="doublespacing">
+                <p><%= link_to "End Turn", end_turn_button_games_path(id: @game.id), controller: 'games_controller', action: 'end_turn', method: :post, class: 'btn btn-success' %></p>
+              </div>
+            <% end %>
           <% end %> 
         </div>
       </td>
