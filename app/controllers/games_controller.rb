@@ -84,7 +84,7 @@ class GamesController < ApplicationController
       else
         flash[:error] = "#{current_character.char_type} missed attack on #{@character.char_type}!"    
       end
-    else current_character.char_type == "Zombie"
+    else
       can_attack
     end
 

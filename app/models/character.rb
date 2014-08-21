@@ -13,7 +13,10 @@ class Character < ActiveRecord::Base
     p1 = self.gridfield
     p2 = gridfield
     distance = Math.sqrt((p1.x - p2.x)**2 + (p1.y - p2.y)**2)
-    distance < range
-    distance
+    if distance < range
+      distance
+    else
+      false
+    end
   end
 end
