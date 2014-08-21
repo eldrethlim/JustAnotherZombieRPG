@@ -1,6 +1,6 @@
 ## Zombie Tactics: An online turn-based tile-based tactical game developed while learning web development.
 
-Made with my mentor at [Bloc](http://bloc.io)
+Made with my mentor at [Bloc](http://bloc.io). This is a game built by playing around with the MVC.
 
 Live app: [Zombie-Tactics](http://zombie-tactics.herokuapp.com/)
 
