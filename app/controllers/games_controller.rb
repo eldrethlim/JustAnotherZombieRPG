@@ -68,24 +68,27 @@ class GamesController < ApplicationController
   end
 
   def attack_character
-    game = Game.find(params[:id])
-    character = Character.find(params[:character_id])
+    @game = Game.find(params[:id])
+    @gridfield = Gridfield.find(params[:gridfield_id])
+    @character = Character.find(params[:character_id])
 
-    if current_character.action_points_left > 0
-      current_character.update(action_points_left: current_character.action_points_left - 1)
-      character.update(life_points_left: character.life_points_left - current_character.attack_damage)
-      if character.life_points_left <= 0
-        character.gridfield.update(graphic_url: 'DeadChar.png')
-        character.destroy
-        flash[:notice] = "#{current_character.char_type} attacked #{character.char_type} for #{current_character.attack_damage} damage! #{character.char_type} died!"
+    if current_character.char_type == "Human"
+      distance = current_character.can_attack_range?(@gridfield)
+      hit = rand(99) + 1
+      if distance >= 6 && hit > 30
+        can_attack
+      elsif distance.between?(3, 5) && hit > 20
+        can_attack
+      elsif distance < 3
+        can_attack
       else
-        flash[:notice] = "#{current_character.char_type} attacked #{character.char_type} for #{current_character.attack_damage} damage!"
-      end 
-    else
-      flash[:error] = "Sorry, this character has no action points left!"
+        flash[:error] = "#{current_character.char_type} missed attack on #{@character.char_type}!"    
+      end
+    else current_character.char_type == "Zombie"
+      can_attack
     end
 
-    redirect_to game
+    redirect_to @game
   end
 
   private
@@ -94,4 +97,20 @@ class GamesController < ApplicationController
     @current_character ||= Character.find_by_id(session[:current_character_id])
   end
   helper_method :current_character
+
+  def can_attack
+    if current_character.action_points_left > 0
+      current_character.update(action_points_left: current_character.action_points_left - 1)
+      @character.update(life_points_left: @character.life_points_left - current_character.attack_damage)
+      if @character.life_points_left <= 0
+        @character.gridfield.update(graphic_url: 'DeadChar.png')
+        @character.destroy
+        flash[:notice] = "#{current_character.char_type} attacked #{@character.char_type} for #{current_character.attack_damage} damage! #{@character.char_type} died!"
+      else
+        flash[:notice] = "#{current_character.char_type} attacked #{@character.char_type} for #{current_character.attack_damage} damage!"
+      end 
+    else
+      flash[:error] = "Sorry, this character has no action points left!"
+    end
+  end
 end

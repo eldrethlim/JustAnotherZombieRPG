@@ -19,11 +19,11 @@
                 <% else %>
                   <% if current_character && current_character.char_type == "Human" && current_character.can_attack_range?(gridfield) %>
                     <td style="background: url('<%= image_path gridfield.graphic_url %>')">
-                    <%= link_to image_tag(gridfield.character.graphic_url), attack_character_games_path(character_id: gridfield.character.id, id: gridfield.map.game.id), controller: 'games_controller', action: 'attack_character', method: :post %>
+                    <%= link_to image_tag(gridfield.character.graphic_url), attack_character_games_path(character_id: gridfield.character.id, id: gridfield.map.game.id, gridfield_id: gridfield.id), controller: 'games_controller', action: 'attack_character', method: :post %>
                     </td>
                   <% elsif current_character && current_character.char_type == "Zombie" && current_character.can_attack_range?(gridfield) %>
                     <td style="background: url('<%= image_path gridfield.graphic_url %>')">
-                    <%= link_to image_tag(gridfield.character.graphic_url), attack_character_games_path(character_id: gridfield.character.id, id: gridfield.map.game.id), controller: 'games_controller', action: 'attack_character', method: :post %>
+                    <%= link_to image_tag(gridfield.character.graphic_url), attack_character_games_path(character_id: gridfield.character.id, id: gridfield.map.game.id, gridfield_id: gridfield.id), controller: 'games_controller', action: 'attack_character', method: :post %>
                     </td>
                   <% else %>
                     <td style="background: url('<%= image_path gridfield.graphic_url %>')">
