@@ -18,6 +18,12 @@
             <p>Character type:</p>
             <p>Speed:</p>
           <% end %>
+
+          <% if current_player.id == @game.current_player_turn_id %>
+            <div class="doublespacing">
+              <p><%= link_to "End Turn", end_turn_games_path(id: @game.id), controller: 'games_controller', action: 'end_turn', method: :post, class: 'btn btn-success' %></p>
+            </div>
+          <% end %> 
         </div>
       </td>
     </tr>

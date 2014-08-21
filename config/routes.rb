@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       post 'unselect_character'
       post 'move_character'
       post 'attack_character'
+      post 'end_turn'
     end
   end
 

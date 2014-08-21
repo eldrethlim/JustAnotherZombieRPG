@@ -91,6 +91,27 @@ class GamesController < ApplicationController
     redirect_to @game
   end
 
+  def end_turn
+    game = Game.find(params[:id])
+    team = Team.find_by_player_id(game.current_player_turn_id)
+    characters = team.characters
+    
+    characters.each do |character|
+      character.update(action_points_left: 2)
+    end
+    game.map.gridfields.where(graphic_url: 'SelectedTile.png').each do |gridfield|
+      gridfield.update(graphic_url: 'GrassTile.png')
+    end
+
+    if game.current_player_turn_id == game.player1.id
+      game.update(current_player_turn_id: game.player2.id)
+    else
+      game.update(current_player_turn_id: game.player1.id)
+    end
+
+    redirect_to game
+  end
+  
   private
 
   def current_character
