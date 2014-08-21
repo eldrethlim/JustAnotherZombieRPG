@@ -53,7 +53,8 @@ class GamesController < ApplicationController
 
   def move_character
     gridfield = Gridfield.find(params[:gridfield_id])
-    game = gridfield.map.game
+    @team = Team.find_by_player_id(gridfield.map.game.current_player_turn_id)
+    @game = gridfield.map.game
 
     if current_character.action_points_left > 0
       current_character.update(action_points_left: current_character.action_points_left - 1)
@@ -64,11 +65,12 @@ class GamesController < ApplicationController
       flash[:error] = "Sorry, this character has no action points left!"
     end
 
-    redirect_to game
+    check_team_action_points
   end
 
   def attack_character
     @game = Game.find(params[:id])
+    @team = Team.find_by_player_id(@game.current_player_turn_id)
     @gridfield = Gridfield.find(params[:gridfield_id])
     @character = Character.find(params[:character_id])
 
@@ -88,28 +90,15 @@ class GamesController < ApplicationController
       can_attack
     end
 
-    redirect_to @game
+    check_team_action_points
   end
 
-  def end_turn
-    game = Game.find(params[:id])
-    team = Team.find_by_player_id(game.current_player_turn_id)
-    characters = team.characters
-    
-    characters.each do |character|
-      character.update(action_points_left: 2)
-    end
-    game.map.gridfields.where(graphic_url: 'SelectedTile.png').each do |gridfield|
-      gridfield.update(graphic_url: 'GrassTile.png')
-    end
+  def end_turn_button
+    @game = Game.find(params[:id])
+    @team = Team.find_by_player_id(game.current_player_turn_id)
+    @characters = team.characters
 
-    if game.current_player_turn_id == game.player1.id
-      game.update(current_player_turn_id: game.player2.id)
-    else
-      game.update(current_player_turn_id: game.player1.id)
-    end
-
-    redirect_to game
+    end_turn
   end
   
   private
@@ -133,5 +122,40 @@ class GamesController < ApplicationController
     else
       flash[:error] = "Sorry, this character has no action points left!"
     end
+  end
+
+  def check_team_action_points
+
+    total = Array.new
+
+    @team.characters.each do |character|
+      total.push character.action_points_left
+    end
+
+    if total.inject(:+) == 0
+      end_turn
+    else
+      redirect_to @game
+    end
+  end
+
+  def end_turn
+    @characters = @team.characters
+    @characters.each do |character|
+      character.update(action_points_left: 2)
+    end
+    
+    @game.map.gridfields.where(graphic_url: 'SelectedTile.png').each do |gridfield|
+      gridfield.update(graphic_url: 'GrassTile.png')
+    end
+
+    if @game.current_player_turn_id == @game.player1.id
+      @game.update(current_player_turn_id: @game.player2.id)
+    else
+      @game.update(current_player_turn_id: @game.player1.id)
+    end
+
+    flash[:alert] = "Your turn has ended!"
+    redirect_to @game
   end
 end
