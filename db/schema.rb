@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140820180116) do
+ActiveRecord::Schema.define(version: 20140822003327) do
 
   create_table "characters", force: true do |t|
     t.integer  "team_id"
@@ -47,6 +47,8 @@ ActiveRecord::Schema.define(version: 20140820180116) do
     t.integer  "character_id"
     t.string   "graphic_url"
     t.boolean  "traversible"
+    t.boolean  "someone_died_here"
+    t.string   "attack_graphic_url"
   end
 
   create_table "gridobjects", force: true do |t|

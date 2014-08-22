@@ -58,7 +58,11 @@ class GamesController < ApplicationController
 
     if current_character.action_points_left > 0
       current_character.update(action_points_left: current_character.action_points_left - 1)
-      current_character.gridfield.update(character_id: nil, graphic_url: 'GrassTile.png')
+      if current_character.gridfield.someone_died_here == true
+        current_character.gridfield.update(character_id: nil, graphic_url: 'DeadChar.png')
+      else
+        current_character.gridfield.update(character_id: nil, graphic_url: 'GrassTile.png')
+      end
       gridfield.update(character_id: current_character.id, graphic_url: 'SelectedTile.png')
       flash[:notice] = "#{current_character.char_type} moved to #{gridfield.x},#{gridfield.y}!"
     else
@@ -95,8 +99,7 @@ class GamesController < ApplicationController
 
   def end_turn_button
     @game = Game.find(params[:id])
-    @team = Team.find_by_player_id(game.current_player_turn_id)
-    @characters = team.characters
+    @team = @game.current_team
 
     end_turn
   end
@@ -113,7 +116,7 @@ class GamesController < ApplicationController
       current_character.update(action_points_left: current_character.action_points_left - 1)
       @character.update(life_points_left: @character.life_points_left - current_character.attack_damage)
       if @character.life_points_left <= 0
-        @character.gridfield.update(graphic_url: 'DeadChar.png')
+        @character.gridfield.update(graphic_url: 'DeadChar.png', someone_died_here: true)
         @character.destroy
         flash[:notice] = "#{current_character.char_type} attacked #{@character.char_type} for #{current_character.attack_damage} damage! #{@character.char_type} died!"
       else

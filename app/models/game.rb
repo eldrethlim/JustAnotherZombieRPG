@@ -16,7 +16,7 @@ class Game < ActiveRecord::Base
       # Create map tiles
       30.times do |y| 
         30.times do |x| 
-          gridfield = map.gridfields.create(y: 30-y, x: x+1, graphic_url: 'GrassTile.png', traversible: true)
+          gridfield = map.gridfields.create(y: 30-y, x: x+1, graphic_url: 'GrassTile.png', attack_graphic_url: 'AttackTile.png', traversible: true, someone_died_here: false)
         end
       end
 
@@ -62,6 +62,14 @@ class Game < ActiveRecord::Base
       end
 
       game
+    end
+  end
+
+  def current_team
+    if self.current_player_turn_id == self.player1.id
+      self.team1
+    else
+      self.team2
     end
   end
 end

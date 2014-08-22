@@ -4,8 +4,8 @@
       <% row.each do |gridfield| %>
         <% if gridfield.map.game.current_player_turn_id == current_player.id %>
           <% if gridfield.character == nil && gridfield.gridobject == nil %>
-            <% if current_character && current_character.can_move_to?(gridfield) %>
-              <td style="background: url('<%= image_path gridfield.graphic_url %>')"><%= link_to image_tag('X.png'), move_character_games_path(gridfield_id: gridfield.id), controller: 'games_controller', action: 'move_character', method: :post %></td>
+            <% if current_character && current_character.can_move_to?(gridfield) && current_character.action_points_left > 0 %>
+              <td style="background: url('<%= image_path gridfield.graphic_url %>')"><%= link_to image_tag('MoveTile.png'), move_character_games_path(gridfield_id: gridfield.id), controller: 'games_controller', action: 'move_character', method: :post %></td>
             <% else %>
               <td style="background: url('<%= image_path gridfield.graphic_url %>')"></td>
             <% end %>
@@ -17,13 +17,13 @@
                   <%= link_to image_tag(gridfield.character.graphic_url), select_character_games_path(character_id: gridfield.character.id, id: gridfield.map.game.id, gridfield_id: gridfield.id), controller: 'games_controller', action: 'select_character', method: :post %>
                   </td>
                 <% else %>
-                  <% if current_character && current_character.char_type == "Human" && current_character.can_attack_range?(gridfield) %>
-                    <td style="background: url('<%= image_path gridfield.graphic_url %>')">
+                  <% if current_character && current_character.char_type == "Human" && current_character.can_attack_range?(gridfield) && current_character.action_points_left > 0 %>
+                    <td style="background: url('<%= image_path gridfield.attack_graphic_url %>')">
                     <%= link_to image_tag(gridfield.character.graphic_url), attack_character_games_path(character_id: gridfield.character.id, id: gridfield.map.game.id, gridfield_id: gridfield.id), controller: 'games_controller', action: 'attack_character', method: :post %>
                     </td>
-                  <% elsif current_character && current_character.char_type == "Zombie" && current_character.can_attack_range?(gridfield) %>
-                    <td style="background: url('<%= image_path gridfield.graphic_url %>')">
-                    <%= link_to image_tag(gridfield.character.graphic_url), attack_character_games_path(character_id: gridfield.character.id, id: gridfield.map.game.id, gridfield_id: gridfield.id), controller: 'games_controller', action: 'attack_character', method: :post %>
+                  <% elsif current_character && current_character.char_type == "Zombie" && current_character.can_attack_range?(gridfield) && current_character.action_points_left > 0 %>
+                    <td style="background: url('<%= image_path gridfield.attack_graphic_url %>')">
+                    <%= image_path('AttackTile.png') %><%= link_to image_tag(gridfield.character.graphic_url), attack_character_games_path(character_id: gridfield.character.id, id: gridfield.map.game.id, gridfield_id: gridfield.id), controller: 'games_controller', action: 'attack_character', method: :post %>
                     </td>
                   <% else %>
                     <td style="background: url('<%= image_path gridfield.graphic_url %>')">
