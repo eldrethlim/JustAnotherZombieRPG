@@ -27,6 +27,11 @@ class GamesController < ApplicationController
     end
   end
 
+  def last_update
+    game = Game.find(params[:id])
+    render text: game.last_update.to_s
+  end
+
   def select_character
     if current_character != nil
       current_character.gridfield.update(graphic_url: 'GrassTile.png')
@@ -59,6 +64,7 @@ class GamesController < ApplicationController
 
     if current_character.action_points_left > 0
       current_character.update(action_points_left: current_character.action_points_left - 1)
+      update_latest_action(@game)
       if current_character.gridfield.someone_died_here == true
         current_character.gridfield.update(character_id: nil, graphic_url: 'DeadChar.png')
       else
@@ -118,6 +124,7 @@ class GamesController < ApplicationController
 
   def perform_attack
     if current_character.action_points_left > 0
+      update_latest_action(@game)
       current_character.update(action_points_left: current_character.action_points_left - 1)
       @character.update(life_points_left: @character.life_points_left - current_character.attack_damage)
       if @character.life_points_left <= 0
@@ -150,8 +157,9 @@ class GamesController < ApplicationController
   def end_turn
     @characters = @team.characters
     @characters.each do |character|
-      character.update(action_points_left: 2)
+      character.update(action_points_left: 2) 
     end
+    update_latest_action(@game)
     
     @game.map.gridfields.where(graphic_url: 'SelectedTile.png').each do |gridfield|
       gridfield.update(graphic_url: 'GrassTile.png')
@@ -165,5 +173,9 @@ class GamesController < ApplicationController
 
     flash[:alert] = "Your turn has ended!"
     redirect_to @game
+  end
+
+  def update_latest_action(game)
+    game.update(last_update: Time.now)
   end
 end

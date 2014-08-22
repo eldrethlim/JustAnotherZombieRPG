@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822003327) do
+ActiveRecord::Schema.define(version: 20140822111715) do
 
   create_table "characters", force: true do |t|
     t.integer  "team_id"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20140822003327) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "current_player_turn_id"
+    t.datetime "last_update"
   end
 
   create_table "gridfields", force: true do |t|
