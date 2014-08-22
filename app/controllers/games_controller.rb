@@ -53,8 +53,9 @@ class GamesController < ApplicationController
 
   def move_character
     gridfield = Gridfield.find(params[:gridfield_id])
-    @team = Team.find_by_player_id(gridfield.map.game.current_player_turn_id)
     @game = gridfield.map.game
+    @team = @game.current_team
+
 
     if current_character.action_points_left > 0
       current_character.update(action_points_left: current_character.action_points_left - 1)
@@ -74,7 +75,7 @@ class GamesController < ApplicationController
 
   def attack_character
     @game = Game.find(params[:id])
-    @team = Team.find_by_player_id(@game.current_player_turn_id)
+    @team = @game.current_team
     @gridfield = Gridfield.find(params[:gridfield_id])
     @character = Character.find(params[:character_id])
 
@@ -107,7 +108,11 @@ class GamesController < ApplicationController
   private
 
   def current_character
-    @current_character ||= Character.find_by_id(session[:current_character_id])
+    if session[:current_character_id] != nil
+      @current_character ||= Character.find_by_id(session[:current_character_id])
+    else
+      @current_character ||= nil
+    end
   end
   helper_method :current_character
 
