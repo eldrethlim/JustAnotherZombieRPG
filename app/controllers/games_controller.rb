@@ -83,16 +83,16 @@ class GamesController < ApplicationController
       distance = current_character.can_attack_range?(@gridfield)
       hit = rand(99) + 1
       if distance >= 6 && hit > 30
-        can_attack
+        perform_attack
       elsif distance.between?(3, 5) && hit > 20
-        can_attack
+        perform_attack
       elsif distance < 3
-        can_attack
+        perform_attack
       else
         flash[:error] = "#{current_character.char_type} missed attack on #{@character.char_type}!"    
       end
     else
-      can_attack
+      perform_attack
     end
 
     check_team_action_points
@@ -116,7 +116,7 @@ class GamesController < ApplicationController
   end
   helper_method :current_character
 
-  def can_attack
+  def perform_attack
     if current_character.action_points_left > 0
       current_character.update(action_points_left: current_character.action_points_left - 1)
       @character.update(life_points_left: @character.life_points_left - current_character.attack_damage)
