@@ -34,7 +34,7 @@ class GamesController < ApplicationController
 
   def select_character
     if current_character != nil
-      current_character.reset_tile(gridfield)
+      current_character.reset_tile(current_character.gridfield)
     end
       gridfield = Gridfield.find(params[:gridfield_id])
       game = Game.find(params[:id])
@@ -61,22 +61,16 @@ class GamesController < ApplicationController
     @game = gridfield.map.game
     @team = @game.current_team
 
-
-    if current_character.action_points_left > 0
-      current_character.update(action_points_left: current_character.action_points_left - 1)
+    if current_character.action_points_left? == true
       @game.latest_update
-      if current_character.gridfield.someone_died_here == true
-        current_character.gridfield.update(character_id: nil, graphic_url: 'DeadChar.png')
-      else
-        current_character.gridfield.update(character_id: nil, graphic_url: 'GrassTile.png')
-      end
-      gridfield.update(character_id: current_character.id, graphic_url: 'SelectedTile.png')
+      current_character.relocate_character(current_character.gridfield, current_character, gridfield)
       flash[:notice] = "#{current_character.char_type} moved to #{gridfield.x},#{gridfield.y}!"
     else
       flash[:error] = "Sorry, this character has no action points left!"
     end
-
-    check_team_action_points
+    if @team.check_team_action_points == true
+    else
+    end
   end
 
   def attack_character
@@ -134,20 +128,20 @@ class GamesController < ApplicationController
     end
   end
 
-  def check_team_action_points
+  #def check_team_action_points
 
-    total = Array.new
+   # total = Array.new
 
-    @team.characters.each do |character|
-      total.push character.action_points_left
-    end
+  #  @team.characters.each do |character|
+   #   total.push character.action_points_left
+   # end
 
-    if total.inject(:+) == 0
-      end_turn
-    else
-      redirect_to @game
-    end
-  end
+   # if total.inject(:+) == 0
+    #  end_turn
+   # else
+    #  redirect_to @game
+   # end
+ # end
 
   def end_turn
     @characters = @team.characters

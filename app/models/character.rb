@@ -34,4 +34,22 @@ class Character < ActiveRecord::Base
   def reset_tile(gridfield)
     gridfield.update(graphic_url: 'GrassTile.png')
   end
+
+  def action_points_left?
+    if self.action_points_left > 0
+      true
+    else
+      false
+    end
+  end
+
+  def relocate_character(old_gridfield, character, new_gridfield)
+    character.update(action_points_left: character.action_points_left - 1)
+    if gridfield.someone_died_here == true
+      old_gridfield.update(character_id: nil, graphic_url: 'DeadChar.png')
+    else
+      old_gridfield.update(character_id: nil, graphic_url: 'GrassTile.png')
+    end
+    new_gridfield.update(character_id: character.id, graphic_url: 'SelectedTile.png')
+  end
 end
