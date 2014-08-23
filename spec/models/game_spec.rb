@@ -43,9 +43,9 @@ RSpec.describe Game, :type => :model do
     it 'should put traversible floor grid object on each field' do
       expect {
         Game.setup(player1: p1, player2: p2)
-      }.to change(Gridobject, :count).by(900)
+      }.to change(Gridobject, :count).by(101)
       Gridobject.all.each do |go|
-        expect(go.traversible).to eq(true)
+        expect(go.gridfield.traversible).to eq(false)
       end
       fields = Gridobject.all.map {|go| gf = go.gridfield; [gf.x, gf.y]}
       expect(fields).to eq(fields.uniq)
@@ -55,11 +55,11 @@ RSpec.describe Game, :type => :model do
       game = Game.setup(player1: p2, player2: p2)
       team = game.team1
       expect(team).to_not be_nil
-      expect(team.characters.count).to eq(1)
+      expect(team.characters.count).to eq(4)
       char = team.characters.first
-      expect(char.graphic_url).to eq('Soldier160x160withgrass.png')
+      expect(char.graphic_url).to eq('Soldier.png')
       expect(char.gridfield).to_not be_nil
-      expect(char.gridfield.x).to eq(1)
+      expect(char.gridfield.x).to eq(12)
       expect(char.gridfield.y).to eq(1)
     end
   end
