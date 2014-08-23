@@ -76,4 +76,20 @@ class Game < ActiveRecord::Base
   def latest_update
     self.update(last_update: Time.now)
   end
+
+  def process_end_turn(characters)
+    characters.each do |character|
+      character.update(action_points_left: 2)
+    end
+
+    self.map.gridfields.where(graphic_url: 'SelectedTile.png').each do |gridfield|
+      gridfield.update(graphic_url: 'GrassTile.png')
+    end
+
+    if self.current_player_turn_id == self.player1.id
+      self.update(current_player_turn_id: self.player2.id)
+    else
+      self.update(current_player_turn_id: self.player1.id)
+    end
+  end
 end

@@ -69,7 +69,9 @@ class GamesController < ApplicationController
       flash[:error] = "Sorry, this character has no action points left!"
     end
     if @team.check_team_action_points == true
+      end_turn
     else
+      redirect_to @game
     end
   end
 
@@ -90,7 +92,11 @@ class GamesController < ApplicationController
       perform_attack
     end
 
-    check_team_action_points
+    if @team.check_team_action_points == true
+      end_turn
+    else
+      redirect_to @game
+    end
   end
 
   def end_turn_button
@@ -128,37 +134,10 @@ class GamesController < ApplicationController
     end
   end
 
-  #def check_team_action_points
-
-   # total = Array.new
-
-  #  @team.characters.each do |character|
-   #   total.push character.action_points_left
-   # end
-
-   # if total.inject(:+) == 0
-    #  end_turn
-   # else
-    #  redirect_to @game
-   # end
- # end
-
   def end_turn
     @characters = @team.characters
-    @characters.each do |character|
-      character.update(action_points_left: 2) 
-    end
     @game.latest_update
-    
-    @game.map.gridfields.where(graphic_url: 'SelectedTile.png').each do |gridfield|
-      gridfield.update(graphic_url: 'GrassTile.png')
-    end
-
-    if @game.current_player_turn_id == @game.player1.id
-      @game.update(current_player_turn_id: @game.player2.id)
-    else
-      @game.update(current_player_turn_id: @game.player1.id)
-    end
+    @game.process_end_turn(@characters)
 
     flash[:alert] = "Your turn has ended!"
     redirect_to @game
