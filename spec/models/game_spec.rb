@@ -51,7 +51,7 @@ RSpec.describe Game, :type => :model do
       expect(fields).to eq(fields.uniq)
     end
 
-    it 'should put one character within the team on the map' do 
+    it 'should put one team of characters within the team on the map' do 
       game = Game.setup(player1: p2, player2: p2)
       team = game.team1
       expect(team).to_not be_nil
