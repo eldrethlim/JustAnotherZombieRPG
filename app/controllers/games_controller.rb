@@ -34,7 +34,7 @@ class GamesController < ApplicationController
 
   def select_character
     if current_character != nil
-      current_character.gridfield.update(graphic_url: 'GrassTile.png')
+      current_character.reset_tile(gridfield)
     end
       gridfield = Gridfield.find(params[:gridfield_id])
       game = Game.find(params[:id])
@@ -49,8 +49,8 @@ class GamesController < ApplicationController
   def unselect_character
     gridfield = Gridfield.find(params[:gridfield_id])
     game = Game.find(params[:id])
+    current_character.reset_tile(gridfield)
     session[:current_character_id] = nil
-    gridfield.update(graphic_url: 'GrassTile.png')
 
     flash[:notice] = "Character unselected"
     redirect_to game

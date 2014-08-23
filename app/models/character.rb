@@ -30,4 +30,8 @@ class Character < ActiveRecord::Base
       true
     end
   end
+
+  def reset_tile(gridfield)
+    gridfield.update(graphic_url: 'GrassTile.png')
+  end
 end
