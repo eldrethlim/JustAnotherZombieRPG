@@ -43,14 +43,14 @@ class Character < ActiveRecord::Base
     end
   end
 
-  def relocate_character(old_gridfield, character, new_gridfield)
-    character.update(action_points_left: character.action_points_left - 1)
+  def relocate_character(old_gridfield, new_gridfield)
+    self.update(action_points_left: self.action_points_left - 1)
     if gridfield.someone_died_here == true
       old_gridfield.update(character_id: nil, graphic_url: 'DeadChar.png')
     else
       old_gridfield.update(character_id: nil, graphic_url: 'GrassTile.png')
     end
-    new_gridfield.update(character_id: character.id, graphic_url: 'SelectedTile.png')
+    new_gridfield.update(character_id: self.id, graphic_url: 'SelectedTile.png')
   end
 
   def check_if_dead?
@@ -58,5 +58,9 @@ class Character < ActiveRecord::Base
       self.gridfield.update(graphic_url: 'DeadChar.png', someone_died_here: true)
       self.destroy
     end
+  end
+
+  def consume_action_points
+    self.update(action_points_left: self.action_points_left - 1)
   end
 end

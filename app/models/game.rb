@@ -94,7 +94,6 @@ class Game < ActiveRecord::Base
   end
 
   def perform_attack(target, attacker)
-    attacker.update(action_points_left: attacker.action_points_left - 1)
     target.update(life_points_left: target.life_points_left - attacker.attack_damage)
   end
 end
