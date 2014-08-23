@@ -81,15 +81,24 @@ class GamesController < ApplicationController
     @gridfield = Gridfield.find(params[:gridfield_id])
     @character = Character.find(params[:character_id])
 
-    if current_character.char_type == "Human"
-      distance = current_character.can_attack_range?(@gridfield)
-      if @character.hit_chance(distance) == true
-        perform_attack
+    if current_character.action_points_left? == true
+      if current_character.char_type == "Human"
+        distance = current_character.can_attack_range?(@gridfield)
+        if @character.hit_chance(distance) == true
+          @game.perform_attack(@character, current_character)
+        else
+          flash[:error] = "#{current_character.char_type} missed attack on #{@character.char_type}!"    
+        end
       else
-        flash[:error] = "#{current_character.char_type} missed attack on #{@character.char_type}!"    
+        @game.perform_attack(@character, current_character)
+      end
+      if @character.check_if_dead?
+        flash[:notice] = "#{current_character.char_type} attacked #{@character.char_type} for #{current_character.attack_damage} damage! #{@character.char_type} died!"
+      else
+        flash[:notice] = "#{current_character.char_type} attacked #{@character.char_type} for #{current_character.attack_damage} damage!"
       end
     else
-      perform_attack
+      flash[:error] = "Sorry, this character has no action points left!"
     end
 
     if @team.check_team_action_points == true
@@ -106,6 +115,15 @@ class GamesController < ApplicationController
     end_turn
   end
   
+  def end_turn
+    @characters = @team.characters
+    @game.latest_update
+    @game.process_end_turn(@characters)
+
+    flash[:alert] = "Your turn has ended!"
+    redirect_to @game
+  end
+
   private
 
   def current_character
@@ -116,30 +134,4 @@ class GamesController < ApplicationController
     end
   end
   helper_method :current_character
-
-  def perform_attack
-    if current_character.action_points_left > 0
-      @game.latest_update
-      current_character.update(action_points_left: current_character.action_points_left - 1)
-      @character.update(life_points_left: @character.life_points_left - current_character.attack_damage)
-      if @character.life_points_left <= 0
-        @character.gridfield.update(graphic_url: 'DeadChar.png', someone_died_here: true)
-        @character.destroy
-        flash[:notice] = "#{current_character.char_type} attacked #{@character.char_type} for #{current_character.attack_damage} damage! #{@character.char_type} died!"
-      else
-        flash[:notice] = "#{current_character.char_type} attacked #{@character.char_type} for #{current_character.attack_damage} damage!"
-      end 
-    else
-      flash[:error] = "Sorry, this character has no action points left!"
-    end
-  end
-
-  def end_turn
-    @characters = @team.characters
-    @game.latest_update
-    @game.process_end_turn(@characters)
-
-    flash[:alert] = "Your turn has ended!"
-    redirect_to @game
-  end
 end
