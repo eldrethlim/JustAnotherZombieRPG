@@ -64,7 +64,7 @@ class GamesController < ApplicationController
 
     if current_character.action_points_left > 0
       current_character.update(action_points_left: current_character.action_points_left - 1)
-      update_latest_action(@game)
+      @game.latest_update
       if current_character.gridfield.someone_died_here == true
         current_character.gridfield.update(character_id: nil, graphic_url: 'DeadChar.png')
       else
@@ -87,12 +87,7 @@ class GamesController < ApplicationController
 
     if current_character.char_type == "Human"
       distance = current_character.can_attack_range?(@gridfield)
-      hit = rand(99) + 1
-      if distance >= 6 && hit > 30
-        perform_attack
-      elsif distance.between?(3, 5) && hit > 20
-        perform_attack
-      elsif distance < 3
+      if @character.hit_chance(distance) == true
         perform_attack
       else
         flash[:error] = "#{current_character.char_type} missed attack on #{@character.char_type}!"    
@@ -124,7 +119,7 @@ class GamesController < ApplicationController
 
   def perform_attack
     if current_character.action_points_left > 0
-      update_latest_action(@game)
+      @game.latest_update
       current_character.update(action_points_left: current_character.action_points_left - 1)
       @character.update(life_points_left: @character.life_points_left - current_character.attack_damage)
       if @character.life_points_left <= 0
@@ -159,7 +154,7 @@ class GamesController < ApplicationController
     @characters.each do |character|
       character.update(action_points_left: 2) 
     end
-    update_latest_action(@game)
+    @game.latest_update
     
     @game.map.gridfields.where(graphic_url: 'SelectedTile.png').each do |gridfield|
       gridfield.update(graphic_url: 'GrassTile.png')
@@ -173,9 +168,5 @@ class GamesController < ApplicationController
 
     flash[:alert] = "Your turn has ended!"
     redirect_to @game
-  end
-
-  def update_latest_action(game)
-    game.update(last_update: Time.now)
   end
 end

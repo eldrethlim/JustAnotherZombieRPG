@@ -72,4 +72,8 @@ class Game < ActiveRecord::Base
       self.team2
     end
   end
+
+  def latest_update
+    self.update(last_update: Time.now)
+  end
 end

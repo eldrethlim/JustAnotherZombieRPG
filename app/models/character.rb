@@ -19,4 +19,15 @@ class Character < ActiveRecord::Base
       false
     end
   end
+
+  def hit_chance(distance)
+    hit = rand(99) + 1
+    if distance > 6 && hit > 30
+      true
+    elsif distance.between?(3, 6) && hit > 20
+      true
+    elsif distance < 3
+      true
+    end
+  end
 end
