@@ -1,0 +1,9 @@
+<% if current_character.can_attack?(gridfield) %>
+  <td style="background: url('<%= image_path gridfield.attack_graphic_url %>')">
+    <%= link_to image_tag(gridfield.character.graphic_url), attack_character_games_path(character_id: gridfield.character.id, id: gridfield.map.game.id, gridfield_id: gridfield.id), controller: 'games_controller', action: 'attack_character', method: :post %>
+  </td>
+<% else %>
+  <td style="background: url('<%= image_path gridfield.graphic_url %>')">
+  <%= image_tag(gridfield.character.graphic_url) %>
+  </td>
+<% end %>

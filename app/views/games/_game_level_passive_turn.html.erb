@@ -1,0 +1,19 @@
+<% gridfields.in_groups_of(30, false) do |row| %>
+  <tr>
+    <% row.each do |gridfield| %>
+      <% if gridfield.character == nil && gridfield.gridobject == nil %>
+        <td style="background: url('<%= image_path gridfield.graphic_url %>')"></td>
+      <% else %>
+        <% if gridfield.character != nil %>
+          <td style="background: url('<%= image_path gridfield.graphic_url %>')">
+            <%= image_tag(gridfield.character.graphic_url) %>
+          </td>
+        <% else %>
+          <td style="background: url('<%= image_path gridfield.graphic_url %>')">
+            <%= image_tag gridfield.gridobject.graphic_url %>
+          </td>
+        <% end %>
+      <% end %>
+    <% end %>
+  </tr>
+<% end %>

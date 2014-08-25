@@ -12,14 +12,14 @@
     <div class="doublespacing">
       <h3>Active Games</h3>
       <div class="spacing">
-        <%= render partial: 'games/game_table', locals: {games: @games} %>
+        <%= render partial: 'games/games_list_table', locals: {games: @games} %>
       </div>
     </div>
 
     <div class="doublespacing">
       <h3>Create a new game</h3>
       <div class="spacing">
-        <%= render partial: 'games/player_table', locals: {players: @players} %>
+        <%= render partial: 'games/players_list_table', locals: {players: @players} %>
       </div>
     </div>
   <% end %>

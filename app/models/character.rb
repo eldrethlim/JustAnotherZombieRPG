@@ -9,6 +9,10 @@ class Character < ActiveRecord::Base
     distance < speed
   end
 
+  def can_attack?(gridfield)
+    self.can_attack_range?(gridfield) && self.action_points_left?
+  end
+
   def can_attack_range?(gridfield)
     p1 = self.gridfield
     p2 = gridfield
@@ -36,11 +40,7 @@ class Character < ActiveRecord::Base
   end
 
   def action_points_left?
-    if self.action_points_left > 0
-      true
-    else
-      false
-    end
+    self.action_points_left > 0
   end
 
   def relocate_character(old_gridfield, new_gridfield)
@@ -62,5 +62,13 @@ class Character < ActiveRecord::Base
 
   def consume_action_points
     self.update(action_points_left: self.action_points_left - 1)
+  end
+
+  def not_tile_char?(gridfield)
+    self != gridfield.character
+  end
+
+  def movement_conditions(gridfield)
+    self != nil && self.can_move_to?(gridfield) && self.action_points_left?
   end
 end

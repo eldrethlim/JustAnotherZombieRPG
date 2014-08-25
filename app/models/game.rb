@@ -96,4 +96,8 @@ class Game < ActiveRecord::Base
   def perform_attack(target, attacker)
     target.update(life_points_left: target.life_points_left - attacker.attack_damage)
   end
+
+  def my_turn?(current_player)
+    self.current_player_turn_id == current_player.id
+  end
 end
