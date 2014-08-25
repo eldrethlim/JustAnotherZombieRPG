@@ -85,23 +85,16 @@ class GamesController < ApplicationController
       current_character.consume_action_points
       if current_character.char_type == "Human"
         distance = current_character.can_attack_range?(@gridfield)
-        if @character.hit_chance(distance)
-          @game.perform_attack(@character, current_character)
-          if @character.check_if_dead?
-            flash[:notice] = "#{current_character.char_type} attacked #{@character.char_type} for #{current_character.attack_damage} damage! #{@character.char_type} died!"
-          else
-            flash[:notice] = "#{current_character.char_type} attacked #{@character.char_type} for #{current_character.attack_damage} damage!"
-          end
-        else
-          flash[:error] = "#{current_character.char_type} missed attack on #{@character.char_type}!"    
-        end
+        @character.hit_chance(distance)
+        @game.perform_attack(@character, current_character)
       else
         @game.perform_attack(@character, current_character)
-        if @character.check_if_dead?
-          flash[:notice] = "#{current_character.char_type} attacked #{@character.char_type} for #{current_character.attack_damage} damage! #{@character.char_type} died!"
-        else
-          flash[:notice] = "#{current_character.char_type} attacked #{@character.char_type} for #{current_character.attack_damage} damage!"
-        end
+      end
+
+      if @character.check_if_dead?
+        flash[:notice] = "#{current_character.char_type} attacked #{@character.char_type} for #{current_character.attack_damage} damage! #{@character.char_type} died!"
+      else
+        flash[:notice] = "#{current_character.char_type} attacked #{@character.char_type} for #{current_character.attack_damage} damage!"
       end
     else
       flash[:error] = "Sorry, this character has no action points left!"
