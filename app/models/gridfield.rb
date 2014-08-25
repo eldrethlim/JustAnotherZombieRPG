@@ -14,8 +14,4 @@ class Gridfield < ActiveRecord::Base
   def is_there_an_object_here?
     self.gridobject == nil
   end
-
-  def character_belongs_to_player?(current_player)
-    self.character.team.player == current_player
-  end
 end

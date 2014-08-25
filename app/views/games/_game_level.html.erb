@@ -4,23 +4,31 @@
       <% row.each do |gridfield| %>
         <% if game.my_turn?(current_player) %>
           <% if gridfield.is_there_nothing_here? %>
-            <% if current_character.movement_conditions(gridfield) %>
-              <td style="background: url('<%= image_path gridfield.graphic_url %>')"><%= link_to image_tag('MoveTile.png'), move_character_games_path(gridfield_id: gridfield.id), controller: 'games_controller', action: 'move_character', method: :post %></td>
+            <% if current_character && current_character.movement_conditions(gridfield) %>
+              <%= render partial: 'games/game_level_movement', locals: {gridfield: gridfield} %>
             <% else %>
               <td style="background: url('<%= image_path gridfield.graphic_url %>')"></td>
             <% end %>
           <% else %>
             <% if gridfield.is_there_a_char_here? %>
-              <% if current_character.not_tile_char?(gridfield) %>
-                <% if gridfield.character_belongs_to_player?(current_player) %>
-                  <%= render partial: 'games/game_level_select', locals: {gridfield: gridfield} %>
+              <% if current_character %>
+                <% if current_character.not_tile_char?(gridfield) %>
+                  <% if gridfield.character.belongs_to_player?(current_player) %>
+                    <%= render partial: 'games/game_level_select', locals: {gridfield: gridfield} %>
+                  <% else %>
+                    <%= render partial: 'games/game_level_attack', locals: {gridfield: gridfield} %>
+                  <% end %>
                 <% else %>
-                  <%= render partial: 'games/game_level_attack', locals: {gridfield: gridfield} %>
+                  <% if current_character.belongs_to_player?(current_player) %>
+                    <%= render partial: 'games/game_level_unselect', locals: {gridfield: gridfield} %>
+                  <% end %>
                 <% end %>
               <% else %>
-                <% if current_character.team.player == current_player %>
+                <% if gridfield.character.belongs_to_player?(current_player) %>
+                  <%= render partial: 'games/game_level_select', locals: {gridfield: gridfield} %>
+                <% else %>
                   <td style="background: url('<%= image_path gridfield.graphic_url %>')">
-                  <%= link_to image_tag(gridfield.character.graphic_url), unselect_character_games_path(id: gridfield.map.game.id, gridfield_id: gridfield.id), controller: 'games_controller', action: 'unselect_character', method: :post %>
+                    <%= image_tag gridfield.character.graphic_url %>
                   </td>
                 <% end %>
               <% end %>
@@ -31,10 +39,10 @@
             <% end %>
           <% end %>
         <% else %>
-          <% if gridfield.character == nil && gridfield.gridobject == nil %>
+          <% if gridfield.is_there_nothing_here? %>
             <td style="background: url('<%= image_path gridfield.graphic_url %>')"></td>
           <% else %>
-            <% if gridfield.character != nil %>
+            <% if gridfield.is_there_a_char_here? %>
               <td style="background: url('<%= image_path gridfield.graphic_url %>')">
                 <%= image_tag(gridfield.character.graphic_url) %>
               </td>

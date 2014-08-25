@@ -1,0 +1,3 @@
+<td style="background: url('<%= image_path gridfield.graphic_url %>')">
+  <%= link_to image_tag(gridfield.character.graphic_url), unselect_character_games_path(id: gridfield.map.game.id, gridfield_id: gridfield.id), controller: 'games_controller', action: 'unselect_character', method: :post %>
+</td>

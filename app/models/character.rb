@@ -69,6 +69,10 @@ class Character < ActiveRecord::Base
   end
 
   def movement_conditions(gridfield)
-    self != nil && self.can_move_to?(gridfield) && self.action_points_left?
+    self.can_move_to?(gridfield) && self.action_points_left?
+  end
+
+  def belongs_to_player?(current_player)
+    self.team.player == current_player
   end
 end

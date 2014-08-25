@@ -1,5 +1,3 @@
-<% if current_character.movement_conditions(gridfield) %>
-  <td style="background: url('<%= image_path gridfield.graphic_url %>')"><%= link_to image_tag('MoveTile.png'), move_character_games_path(gridfield_id: gridfield.id), controller: 'games_controller', action: 'move_character', method: :post %></td>
-<% else %>
-  <td style="background: url('<%= image_path gridfield.graphic_url %>')"></td>
-<% end %>
+<td style="background: url('<%= image_path gridfield.graphic_url %>')">
+  <%= link_to image_tag('MoveTile.png'), move_character_games_path(gridfield_id: gridfield.id), controller: 'games_controller', action: 'move_character', method: :post %>
+</td>
