@@ -1,59 +1,51 @@
 <table class= "table-bordered fixed">
-  <% gridfields.in_groups_of(30, false) do |row| %>
-    <tr>
-      <% row.each do |gridfield| %>
-        <% if game.my_turn?(current_player) %>
-          <% if gridfield.is_there_nothing_here? %>
-            <% if current_character && current_character.movement_conditions(gridfield) %>
-              <%= render partial: 'games/game_level_movement', locals: {gridfield: gridfield} %>
+  <% if game.one_team_has_no_members? %>
+    <%= render partial: 'games/game_level_passive_turn', locals: {gridfields: gridfields} %>
+  <% else %>
+    <% if game.my_turn?(current_player) %>
+      <% gridfields.in_groups_of(30, false) do |row| %>
+        <tr>
+          <% row.each do |gridfield| %>
+            <% if gridfield.is_there_nothing_here? %>
+              <% if current_character && current_character.movement_conditions(gridfield) %>
+                <%= render partial: 'games/game_level_movement', locals: {gridfield: gridfield} %>
+              <% else %>
+                <td style="background: url('<%= image_path gridfield.graphic_url %>')"></td>
+              <% end %>
             <% else %>
-              <td style="background: url('<%= image_path gridfield.graphic_url %>')"></td>
-            <% end %>
-          <% else %>
-            <% if gridfield.is_there_a_char_here? %>
-              <% if current_character %>
-                <% if current_character.not_tile_char?(gridfield) %>
+              <% if gridfield.is_there_a_char_here? %>
+                <% if current_character %>
+                  <% if current_character.not_tile_char?(gridfield) %>
+                    <% if gridfield.character.belongs_to_player?(current_player) %>
+                      <%= render partial: 'games/game_level_select', locals: {gridfield: gridfield} %>
+                    <% else %>
+                      <%= render partial: 'games/game_level_attack', locals: {gridfield: gridfield} %>
+                    <% end %>
+                  <% else %>
+                    <% if current_character.belongs_to_player?(current_player) %>
+                      <%= render partial: 'games/game_level_unselect', locals: {gridfield: gridfield} %>
+                    <% end %>
+                  <% end %>
+                <% else %>
                   <% if gridfield.character.belongs_to_player?(current_player) %>
                     <%= render partial: 'games/game_level_select', locals: {gridfield: gridfield} %>
                   <% else %>
-                    <%= render partial: 'games/game_level_attack', locals: {gridfield: gridfield} %>
-                  <% end %>
-                <% else %>
-                  <% if current_character.belongs_to_player?(current_player) %>
-                    <%= render partial: 'games/game_level_unselect', locals: {gridfield: gridfield} %>
+                    <td style="background: url('<%= image_path gridfield.graphic_url %>')">
+                      <%= image_tag gridfield.character.graphic_url %>
+                    </td>
                   <% end %>
                 <% end %>
-              <% else %>
-                <% if gridfield.character.belongs_to_player?(current_player) %>
-                  <%= render partial: 'games/game_level_select', locals: {gridfield: gridfield} %>
-                <% else %>
-                  <td style="background: url('<%= image_path gridfield.graphic_url %>')">
-                    <%= image_tag gridfield.character.graphic_url %>
-                  </td>
-                <% end %>
-              <% end %>
-            <% else %> 
-              <td style="background: url('<%= image_path gridfield.graphic_url %>')">
-              <%= image_tag gridfield.gridobject.graphic_url %>
-              </td>
-            <% end %>
-          <% end %>
-        <% else %>
-          <% if gridfield.is_there_nothing_here? %>
-            <td style="background: url('<%= image_path gridfield.graphic_url %>')"></td>
-          <% else %>
-            <% if gridfield.is_there_a_char_here? %>
-              <td style="background: url('<%= image_path gridfield.graphic_url %>')">
-                <%= image_tag(gridfield.character.graphic_url) %>
-              </td>
-            <% else %>
-              <td style="background: url('<%= image_path gridfield.graphic_url %>')">
+              <% else %> 
+                <td style="background: url('<%= image_path gridfield.graphic_url %>')">
                 <%= image_tag gridfield.gridobject.graphic_url %>
-              </td>
+                </td>
+              <% end %>
             <% end %>
           <% end %>
-        <% end %>
+        </tr>
+      <% end %>
+    <% else %>
+      <%= render partial: 'games/game_level_passive_turn', locals: {gridfields: gridfields} %>
     <% end %>
-    </tr>
   <% end %>
 </table>

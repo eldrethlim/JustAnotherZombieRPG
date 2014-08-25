@@ -97,6 +97,11 @@ class GamesController < ApplicationController
         end
       else
         @game.perform_attack(@character, current_character)
+        if @character.check_if_dead?
+          flash[:notice] = "#{current_character.char_type} attacked #{@character.char_type} for #{current_character.attack_damage} damage! #{@character.char_type} died!"
+        else
+          flash[:notice] = "#{current_character.char_type} attacked #{@character.char_type} for #{current_character.attack_damage} damage!"
+        end
       end
     else
       flash[:error] = "Sorry, this character has no action points left!"

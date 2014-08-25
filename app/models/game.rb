@@ -100,4 +100,16 @@ class Game < ActiveRecord::Base
   def my_turn?(current_player)
     self.current_player_turn_id == current_player.id
   end
+
+  def one_team_has_no_members?
+    self.team1.has_no_members? || self.team2.has_no_members?
+  end
+
+  def check_who_won?
+    if self.team1.has_no_members?
+      "Zombies"
+    else
+      "Humans"
+    end
+  end
 end

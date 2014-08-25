@@ -3,6 +3,10 @@ class Team < ActiveRecord::Base
   has_one :game
   belongs_to :player
 
+  def has_no_members?
+    self.characters.count == 0
+  end
+
   def has_team_action_points?
     total = Array.new
 
