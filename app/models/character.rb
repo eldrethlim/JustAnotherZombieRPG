@@ -53,7 +53,7 @@ class Character < ActiveRecord::Base
     new_gridfield.update(character_id: self.id, graphic_url: 'SelectedTile.png')
   end
 
-  def check_if_dead?
+  def check_if_dead
     if self.life_points_left <= 0
       self.gridfield.update(graphic_url: 'DeadChar.png', someone_died_here: true)
       self.destroy
