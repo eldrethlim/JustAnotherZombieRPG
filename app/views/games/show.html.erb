@@ -13,7 +13,7 @@
             <p> Game Over! </p>
           <% else %>
             <% if @game.current_player_turn_id != current_player.id %>
-              <h3> It is currently your opponent's turn!</h3>
+              <p> It is your opponent's turn!<p>
             <% else %>
               <p><h4>Character Stats:</h4></p>
               <% if current_character %>
